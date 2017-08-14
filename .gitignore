@@ -1,0 +1,29 @@
+#vim
+*~
+*.sw?
+
+# python
+*.pyc
+
+# generic editing tools
+tags
+
+#mac
+*.DS_Store
+
+# libs
+
+# build tools
+node_modules/
+
+# logfiles
+*.log
+.idea/
+.vscode/
+.history/
+
+# build artifacts
+build/
+
+# config override
+config/local.json
