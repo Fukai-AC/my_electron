@@ -23,7 +23,7 @@ node_modules/
 .history/
 
 # build artifacts
-build/
+dist/
 
 # config override
 config/local.json
