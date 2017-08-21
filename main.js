@@ -5,9 +5,12 @@ const {
   MenuItem,
   ipcMain,
   ipcRenderer,
-  dialog
+  dialog,
+  shell
 } = require('electron');
-const { version } = require('./package.json');
+const {
+  version
+} = require('./package.json');
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
@@ -17,20 +20,32 @@ const axios = require('axios');
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let win;
 const check_update = () => {
-  axios.get().end((err, res) => {
-    if(res.statusCode == 204) {
+  // axios.get().end((err, res) => {
+  //   if(res.statusCode == 204) {
 
-    }
-  });
+  //   }
+  // });
   const index = dialog.showMessageBox({
     type: 'info',
     message: '发现新版本请立即更新',
     buttons: ['升级', '取消']
   });
-  console.log(index);
+  if (index === 0 && version !== '') {
+    var updateUrl = "";
+    if (process.platform === 'darwin') {
+      updateUrl = '';
+    } else if (process.platform.indexOf('win')) {
+      updateUrl = '';
+    }
+    var isUrl = updateUrl.match(/http:\/\/.+/);
+    if (isUrl) {
+      shell.openExternal(updateUrl);
+    }
+    shell.openExternal('https://static.codemao.cn/my_electron-1.0.0.dmg');
+  }
 }
 
-function createWindow () {
+function createWindow() {
   console.log(version);
   global.ipcRender = ipcRenderer;
   // 创建浏览器窗口。
@@ -68,7 +83,7 @@ function createWindow () {
   win.on('closed', () => {
     win = null
   });
-  // check_update();
+  check_update();
 }
 
 app.on('ready', createWindow);

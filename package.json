@@ -1,5 +1,5 @@
 {
-  "name": "my_electron",
+  "name": "codemao",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -17,7 +17,7 @@
     "type": "git",
     "url": "git+https://github.com/Fukai-AC/my_electron.git"
   },
-  "author": "fukai",
+  "author": "Codemao",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Fukai-AC/my_electron/issues"
