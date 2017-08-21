@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/.bin/electron .",
     "build": "electron-builder",
-    "build_win": "electron-builder",
+    "build_win": "electron-builder --win --ia32",
     "rebuild": "electron-rebuild -m ./"
   },
   "build": {
