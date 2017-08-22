@@ -57,6 +57,7 @@ function createWindow() {
     maximizable: false,
     frame: false,
     backgroundColor: '#CDFEFF',
+    icon: path.join(__dirname, 'build/icon.ico'),
   });
   win.webContents.on('new-window', (ev, url) => {
     ev.preventDefault();
@@ -70,9 +71,12 @@ function createWindow() {
         width: externalDisplay.workAreaSize.width,
         height: externalDisplay.workAreaSize.height,
         maximize: false,
+        icon: path.join(__dirname, 'build/icon.ico'),
       })
     } else {
-      window = new BrowserWindow();
+      window = new BrowserWindow({
+        icon: path.join(__dirname, 'build/icon.ico'),
+      });
     }
     // window.setFullScreen(true)
     window.maximize();
