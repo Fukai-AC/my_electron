@@ -56,34 +56,47 @@ function createWindow() {
     movable: true,
     maximizable: false,
     frame: false,
-    show: false,
     backgroundColor: '#CDFEFF',
   });
-  win.once('ready-to-show', () => {
-    win.show()
-  })
   win.webContents.on('new-window', (ev, url) => {
     ev.preventDefault();
     const displays = electron.screen.getAllDisplays();
     let externalDisplay = displays.find((display) => {
       return display.bounds.x !== 0 || display.bounds.y !== 0
     })
-    var window = new BrowserWindow({
-      width: externalDisplay.workAreaSize.width,
-      height: externalDisplay.workAreaSize.height,
-      maximize: false,
-    })
-    window.setFullScreen(true)
+    var window;
+    if (externalDisplay) {
+      window = new BrowserWindow({
+        width: externalDisplay.workAreaSize.width,
+        height: externalDisplay.workAreaSize.height,
+        maximize: false,
+      })
+    } else {
+      window = new BrowserWindow();
+    }
+    // window.setFullScreen(true)
     window.maximize();
     window.loadURL(url);
   });
-  win.loadURL('http://192.168.30.235:5050/home', {
+  win.loadURL('http://localhost:5050/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
     win = null
   });
   check_update();
+}
+
+const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (win) {
+    if (win.isMinimized()) win.restore()
+      win.focus();
+  }
+})
+
+if (isSecondInstance) {
+  app.quit()
 }
 
 app.on('ready', createWindow);
