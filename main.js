@@ -21,11 +21,12 @@ const axios = require('axios');
 let win;
 let normal_window;
 const check_update = () => {
-  // axios.get().end((err, res) => {
-  //   if(res.statusCode == 204) {
+  axios.get('https://backend-dev.codemao.cn/tiger/pc_client/releases/latest').end((err, res) => {
+    console.log(res);
+    if(res.statusCode == 204) {
 
-  //   }
-  // });
+    }
+  });
   const index = dialog.showMessageBox({
     type: 'info',
     message: '发现新版本请立即更新',
