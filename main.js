@@ -19,6 +19,7 @@ const axios = require('axios');
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let win;
+let normal_window;
 const check_update = () => {
   // axios.get().end((err, res) => {
   //   if(res.statusCode == 204) {
@@ -46,7 +47,6 @@ const check_update = () => {
 }
 
 function createWindow() {
-  console.log(version);
   global.ipcRender = ipcRenderer;
   // 创建浏览器窗口。
   win = new BrowserWindow({
@@ -58,29 +58,26 @@ function createWindow() {
     frame: false,
     backgroundColor: '#CDFEFF',
     icon: path.join(__dirname, 'build/icon.ico'),
-  });
-  win.webContents.on('new-window', (ev, url) => {
-    ev.preventDefault();
-    const displays = electron.screen.getAllDisplays();
-    let externalDisplay = displays.find((display) => {
-      return display.bounds.x !== 0 || display.bounds.y !== 0
-    })
-    var window;
-    if (externalDisplay) {
-      window = new BrowserWindow({
-        width: externalDisplay.workAreaSize.width,
-        height: externalDisplay.workAreaSize.height,
-        maximize: false,
-        icon: path.join(__dirname, 'build/icon.ico'),
-      })
-    } else {
-      window = new BrowserWindow({
-        icon: path.join(__dirname, 'build/icon.ico'),
-      });
+    webPreferences: {
+      nativeWindowOpen: true
     }
-    // window.setFullScreen(true)
-    window.maximize();
-    window.loadURL(url);
+  });
+  win.webContents.on('new-window', (ev, url, frameName, disposition, options, additionalFeatures) => {
+    ev.preventDefault();
+    if (frameName === 'normal') {
+      // open window as modal
+      ev.preventDefault()
+      Object.assign(options, {
+        frame: true,
+        x: win.x + 165,
+        y: win.y
+      })
+      normal_window = new BrowserWindow(options);
+      ev.newGuest = normal_window;
+      ev.newGuest.loadURL(url);
+    } else {
+      create_full_screen_window();
+    }
   });
   win.loadURL('http://localhost:5050/home', {
     userAgent: 'codemao-application'
@@ -89,6 +86,28 @@ function createWindow() {
     win = null
   });
   check_update();
+}
+function create_full_screen_window() {
+  const displays = electron.screen.getAllDisplays();
+  let externalDisplay = displays.find((display) => {
+    return display.bounds.x !== 0 || display.bounds.y !== 0
+  })
+  var window;
+  if (externalDisplay) {
+    window = new BrowserWindow({
+      width: externalDisplay.workAreaSize.width,
+      height: externalDisplay.workAreaSize.height,
+      maximize: false,
+      icon: path.join(__dirname, 'build/icon.ico'),
+    })
+  } else {
+    window = new BrowserWindow({
+      icon: path.join(__dirname, 'build/icon.ico'),
+    });
+  }
+  // window.setFullScreen(true)
+  window.maximize();
+  window.loadURL(url);
 }
 
 const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
