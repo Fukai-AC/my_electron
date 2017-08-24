@@ -76,7 +76,7 @@ function createWindow() {
       ev.newGuest = normal_window;
       ev.newGuest.loadURL(url);
     } else {
-      create_full_screen_window();
+      create_full_screen_window(url);
     }
   });
   win.loadURL('http://localhost:5050/home', {
@@ -87,7 +87,7 @@ function createWindow() {
   });
   check_update();
 }
-function create_full_screen_window() {
+function create_full_screen_window(url) {
   const displays = electron.screen.getAllDisplays();
   let externalDisplay = displays.find((display) => {
     return display.bounds.x !== 0 || display.bounds.y !== 0
