@@ -45,6 +45,23 @@ const check_update = () => {
     shell.openExternal('https://static.codemao.cn/my_electron-1.0.0.dmg');
   }
 }
+function new_window_listener(ev, url, frameName, disposition, options, additionalFeatures) {
+  ev.preventDefault();
+  if (frameName === 'normal') {
+    // open window as modal
+    ev.preventDefault()
+    Object.assign(options, {
+      frame: true,
+      x: win.x + 165,
+      y: win.y
+    })
+    normal_window = new BrowserWindow(options);
+    ev.newGuest = normal_window;
+    ev.newGuest.loadURL(url);
+  } else {
+    create_full_screen_window(url);
+  }
+}
 
 function createWindow() {
   global.ipcRender = ipcRenderer;
@@ -62,23 +79,7 @@ function createWindow() {
       nativeWindowOpen: true
     }
   });
-  win.webContents.on('new-window', (ev, url, frameName, disposition, options, additionalFeatures) => {
-    ev.preventDefault();
-    if (frameName === 'normal') {
-      // open window as modal
-      ev.preventDefault()
-      Object.assign(options, {
-        frame: true,
-        x: win.x + 165,
-        y: win.y
-      })
-      normal_window = new BrowserWindow(options);
-      ev.newGuest = normal_window;
-      ev.newGuest.loadURL(url);
-    } else {
-      create_full_screen_window(url);
-    }
-  });
+  win.webContents.on('new-window', new_window_listener);
   win.loadURL('http://localhost:5050/home', {
     userAgent: 'codemao-application'
   });
@@ -107,6 +108,7 @@ function create_full_screen_window(url) {
   }
   // window.setFullScreen(true)
   window.maximize();
+  window.webContents.on('new-window', new_window_listener);
   window.loadURL(url);
 }
 
@@ -135,18 +137,6 @@ app.on('activate', () => {
   }
 });
 
-const menu = new Menu();
-menu.append(new MenuItem({
-  label: '刷新',
-  click: () => {
-    win.reload();
-  },
-}));
-app.on('browser-window-created', (ev, window) => {
-  window.webContents.on('context-menu', (e, params) => {
-    menu.popup(window, params.x, params.y);
-  });
-});
 ipcMain.on('show-context-menu', (event) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   menu.popup(win);
