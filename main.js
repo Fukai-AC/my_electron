@@ -24,7 +24,6 @@ const check_update = () => {
   const dev_url = 'https://backend-dev.codemao.cn/tiger/pc_client/releases/latest';
   const url = '';
   axios.get(dev_url).then((res) => {
-    console.log(res);
     if(res.status == 200 && res.data && res.data.version_number !== version) {
       const index = dialog.showMessageBox({
         type: 'info',
@@ -81,7 +80,7 @@ function createWindow() {
     }
   });
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('http://localhost:5050/home', {
+  win.loadURL('http://192.168.20.246:5050/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
@@ -99,12 +98,13 @@ function create_full_screen_window(url) {
     window = new BrowserWindow({
       width: externalDisplay.workAreaSize.width,
       height: externalDisplay.workAreaSize.height,
-      maximize: false,
       icon: path.join(__dirname, 'build/icon.ico'),
+      frame: true
     })
   } else {
     window = new BrowserWindow({
       icon: path.join(__dirname, 'build/icon.ico'),
+      frame: true
     });
   }
   // window.setFullScreen(true)
@@ -151,4 +151,8 @@ ipcMain.on('close_window', (event) => {
 });
 ipcMain.on('clear_cache', (event) => {
   win.webContents.clearHistory();
+});
+ipcMain.on('open_default_browser', (event, url) => {
+  console.log(url);
+  shell.openExternal(url);
 });
