@@ -21,30 +21,30 @@ const axios = require('axios');
 let win;
 let normal_window;
 const check_update = () => {
-  axios.get('https://backend-dev.codemao.cn/tiger/pc_client/releases/latest').end((err, res) => {
+  const dev_url = 'https://backend-dev.codemao.cn/tiger/pc_client/releases/latest';
+  const url = '';
+  axios.get(dev_url).then((res) => {
     console.log(res);
-    if(res.statusCode == 204) {
-
+    if(res.status == 200 && res.data && res.data.version_number !== version) {
+      const index = dialog.showMessageBox({
+        type: 'info',
+        message: '发现新版本请立即更新',
+        buttons: ['升级', '取消']
+      });
+      if (index === 0 && version !== '') {
+        var updateUrl = '';
+        if (process.platform === 'darwin') {
+          updateUrl = res.data.mac_url;
+        } else if (process.platform.indexOf('win')) {
+          updateUrl = res.data.windows_url;
+        }
+        var isUrl = updateUrl.match(/http:\/\/.+/);
+        if (isUrl) {
+          shell.openExternal(updateUrl);
+        }
+      }
     }
   });
-  const index = dialog.showMessageBox({
-    type: 'info',
-    message: '发现新版本请立即更新',
-    buttons: ['升级', '取消']
-  });
-  if (index === 0 && version !== '') {
-    var updateUrl = "";
-    if (process.platform === 'darwin') {
-      updateUrl = '';
-    } else if (process.platform.indexOf('win')) {
-      updateUrl = '';
-    }
-    var isUrl = updateUrl.match(/http:\/\/.+/);
-    if (isUrl) {
-      shell.openExternal(updateUrl);
-    }
-    shell.openExternal('https://static.codemao.cn/my_electron-1.0.0.dmg');
-  }
 }
 function new_window_listener(ev, url, frameName, disposition, options, additionalFeatures) {
   ev.preventDefault();
