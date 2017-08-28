@@ -80,7 +80,7 @@ function createWindow() {
     }
   });
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('http://192.168.30.119:5050/home', {
+  win.loadURL('http://192.168.30.200:5050/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
