@@ -2,6 +2,7 @@
   "name": "codemao",
   "version": "1.0.0",
   "description": "",
+  "productName": "编程猫",
   "main": "main.js",
   "scripts": {
     "test": "./node_modules/.bin/electron . --inspect=5858",
