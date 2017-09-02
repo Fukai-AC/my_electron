@@ -56,6 +56,7 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
       y: win.y
     })
     normal_window = new BrowserWindow(options);
+    normal_window.openDevTools();
     ev.newGuest = normal_window;
     ev.newGuest.loadURL(url);
   } else {
@@ -79,6 +80,7 @@ function createWindow() {
       nativeWindowOpen: true
     }
   });
+  win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
   win.loadURL('http://192.168.30.204:5050/home', {
     userAgent: 'codemao-application'
@@ -108,6 +110,7 @@ function create_full_screen_window(url) {
     });
   }
   // window.setFullScreen(true)
+  window.openDevTools();
   window.maximize();
   window.webContents.on('new-window', new_window_listener);
   window.loadURL(url);
