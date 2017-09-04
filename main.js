@@ -14,6 +14,7 @@ const {
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
+console.log(require('axios'));
 const axios = require('axios');
 
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
