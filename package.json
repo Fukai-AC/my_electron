@@ -7,7 +7,7 @@
   "scripts": {
     "test": "./node_modules/.bin/electron . --inspect=5858",
     "build": "electron-builder",
-    "build_mac": "cross-env CSC_LINK=https://static.codemao.cn/whiteclient/apple_csc.p12 CSC_KEY_PASSWORD=cm66668888 CSC_IDENTITY_AUTO_DISCOVERY=true electron-builder",
+    "build_mac": "cross-env CSC_LINK=https://frontend-static.codemao.cn/white-cliten/csc1.p12 CSC_KEY_PASSWORD=cm66668888 CSC_IDENTITY_AUTO_DISCOVERY=true electron-builder",
     "build_win": "electron-builder --win --ia32",
     "rebuild": "electron-rebuild -m ./"
   },

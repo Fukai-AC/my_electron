@@ -14,7 +14,6 @@ const {
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
-console.log(require('axios'));
 const axios = require('axios');
 
 // 保持一个对于 window 对象的全局引用，如果你不这样做，
@@ -83,7 +82,7 @@ function createWindow() {
   });
   win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('https://dev-client.codemao.cn/home', {
+  win.loadURL('http://localhost:5050/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
@@ -114,7 +113,9 @@ function create_full_screen_window(url) {
   window.openDevTools();
   window.maximize();
   window.webContents.on('new-window', new_window_listener);
-  window.loadURL(url);
+  window.loadURL(url, {
+    userAgent: 'codemao-application'
+  });
 }
 
 const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
@@ -157,6 +158,5 @@ ipcMain.on('clear_cache', (event) => {
   win.webContents.clearHistory();
 });
 ipcMain.on('open_default_browser', (event, url) => {
-  console.log(url);
   shell.openExternal(url);
 });
