@@ -82,7 +82,7 @@ function createWindow() {
   });
   win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('http://localhost:5050/home', {
+  win.loadURL('https://dev-client.codemao.cn/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
