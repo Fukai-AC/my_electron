@@ -54,7 +54,10 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
     Object.assign(options, {
       frame: true,
       x: win.x + 165,
-      y: win.y
+      y: win.y,
+      webPreferences: {
+        nodeIntegration: false
+      }
     })
     normal_window = new BrowserWindow(options);
     // normal_window.openDevTools();
