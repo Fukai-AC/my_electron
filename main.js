@@ -6,7 +6,8 @@ const {
   ipcMain,
   ipcRenderer,
   dialog,
-  shell
+  shell,
+  globalShortcut
 } = require('electron');
 const {
   version
@@ -56,7 +57,7 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
       y: win.y
     })
     normal_window = new BrowserWindow(options);
-    normal_window.openDevTools();
+    // normal_window.openDevTools();
     ev.newGuest = normal_window;
     ev.newGuest.loadURL(url);
   } else {
@@ -65,6 +66,9 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
 }
 
 function createWindow() {
+  globalShortcut.register('CommandOrControl+Shift+o', () => {
+    BrowserWindow.getFocusedWindow().openDevTools();
+  })
   global.ipcRender = ipcRenderer;
   // 创建浏览器窗口。
   win = new BrowserWindow({
@@ -80,9 +84,9 @@ function createWindow() {
       nativeWindowOpen: true
     }
   });
-  win.openDevTools();
+  // win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('https://dev-client.codemao.cn/home', {
+  win.loadURL('https://staging-client.codemao.cn/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
@@ -110,7 +114,7 @@ function create_full_screen_window(url) {
     });
   }
   // window.setFullScreen(true)
-  window.openDevTools();
+  // window.openDevTools();
   window.maximize();
   window.webContents.on('new-window', new_window_listener);
   window.loadURL(url, {
