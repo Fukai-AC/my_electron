@@ -1,6 +1,6 @@
 {
   "name": "codemao",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "productName": "编程猫",
   "main": "./main.js",
