@@ -33,9 +33,9 @@ const check_update = () => {
       });
       if (index === 0 && version !== '') {
         var updateUrl = '';
-        if (process.platform === 'darwin') {
+        if (process.platform.indexOf('darwin') >= 0) {
           updateUrl = res.data.mac_url;
-        } else if (process.platform.indexOf('win')) {
+        } else if (process.platform.indexOf('win') >= 0) {
           updateUrl = res.data.windows_url;
         }
         shell.openExternal(updateUrl);
