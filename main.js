@@ -29,9 +29,9 @@ const check_update = () => {
       const index = dialog.showMessageBox({
         type: 'info',
         message: '发现新版本请立即更新',
-        buttons: ['升级', '取消']
+        buttons: ['取消', '升级']
       });
-      if (index === 0 && version !== '') {
+      if (index === 1 && version !== '') {
         var updateUrl = '';
         if (process.platform.indexOf('darwin') >= 0) {
           updateUrl = res.data.mac_url;
@@ -116,7 +116,7 @@ function create_full_screen_window(url) {
   // window.setFullScreen(true)
   // window.openDevTools();
   var useragent = 'codemao-application';
-  if (url.indexOf('wood') >= 0) {
+  if (url.indexOf('wood') >= 0 || url.indexOf('dev-py') >= 0) {
     useragent = 'codemao-application Chrome/' + process.versions.chrome;
   }
   window.maximize();
