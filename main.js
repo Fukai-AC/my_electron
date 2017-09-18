@@ -38,10 +38,7 @@ const check_update = () => {
         } else if (process.platform.indexOf('win')) {
           updateUrl = res.data.windows_url;
         }
-        var isUrl = updateUrl.match(/http:\/\/.+/);
-        if (isUrl) {
-          shell.openExternal(updateUrl);
-        }
+        shell.openExternal(updateUrl);
       }
     }
   });
