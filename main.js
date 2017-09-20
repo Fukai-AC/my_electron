@@ -21,28 +21,28 @@ const axios = require('axios');
 // 当 JavaScript 对象被垃圾回收， window 会被自动地关闭
 let win;
 let normal_window;
-const check_update = () => {
-  const dev_url = 'https://backend-dev.codemao.cn/tiger/pc_client/releases/latest';
-  const url = '';
-  axios.get(dev_url).then((res) => {
-    if(res.status == 200 && res.data && res.data.version_number !== version) {
-      const index = dialog.showMessageBox({
-        type: 'info',
-        message: '发现新版本请立即更新',
-        buttons: ['取消', '升级']
-      });
-      if (index === 1 && version !== '') {
-        var updateUrl = '';
-        if (process.platform.indexOf('darwin') >= 0) {
-          updateUrl = res.data.mac_url;
-        } else if (process.platform.indexOf('win') >= 0) {
-          updateUrl = res.data.windows_url;
-        }
-        shell.openExternal(updateUrl);
-      }
-    }
-  });
-}
+// const check_update = () => {
+//   const dev_url = 'https://backend-dev.codemao.cn/tiger/pc_client/releases/latest';
+//   const url = '';
+//   axios.get(dev_url).then((res) => {
+//     if(res.status == 200 && res.data && res.data.version_number !== version) {
+//       const index = dialog.showMessageBox({
+//         type: 'info',
+//         message: '发现新版本请立即更新',
+//         buttons: ['取消', '升级']
+//       });
+//       if (index === 1 && version !== '') {
+//         var updateUrl = '';
+//         if (process.platform.indexOf('darwin') >= 0) {
+//           updateUrl = res.data.mac_url;
+//         } else if (process.platform.indexOf('win') >= 0) {
+//           updateUrl = res.data.windows_url;
+//         }
+//         shell.openExternal(updateUrl);
+//       }
+//     }
+//   });
+// }
 function new_window_listener(ev, url, frameName, disposition, options, additionalFeatures) {
   ev.preventDefault();
   if (frameName === 'normal') {
@@ -92,7 +92,7 @@ function createWindow() {
   win.on('closed', () => {
     app.quit();
   });
-  check_update();
+  // check_update();
 }
 function create_full_screen_window(url) {
   const displays = electron.screen.getAllDisplays();
