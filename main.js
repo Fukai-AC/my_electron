@@ -113,7 +113,8 @@ function createWindow() {
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   win.flashFrame(true);
-  win.once('focus', () => win.flashFrame(false))
+  win.once('focus', () => win.flashFrame(false));
+  app.main_win = win;
 }
 function create_full_screen_window(url) {
   const displays = electron.screen.getAllDisplays();
@@ -171,7 +172,7 @@ app.on('activate', () => {
     createWindow()
   }
 });
-global.main_win = win;
+
 ipcMain.on('show-context-menu', (event) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   menu.popup(win);
