@@ -7,7 +7,8 @@ const {
   ipcRenderer,
   dialog,
   shell,
-  globalShortcut
+  globalShortcut,
+  Tray
 } = require('electron');
 const {
   version
@@ -111,6 +112,15 @@ function createWindow() {
     ]}
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+  const tray = new Tray(__dirname + '/build/test.png');
+  tray.on('click', () => {
+    win.isVisible() ? win.hide() : win.show();
+  })
+  tray.displayBalloon({
+    icon: __dirname + '/build/test.png',
+    title: "Hello",
+    content: "Icon test."
+  })
 }
 function create_full_screen_window(url) {
   const displays = electron.screen.getAllDisplays();
