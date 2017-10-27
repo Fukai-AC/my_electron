@@ -66,7 +66,7 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
 }
 
 function createWindow() {
-  app.version = '1.0.1';
+  app.version = '1.0.2';
   globalShortcut.register('CommandOrControl+Shift+o', () => {
     BrowserWindow.getFocusedWindow().openDevTools();
   })
@@ -87,13 +87,30 @@ function createWindow() {
   });
   // win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('https://client.codemao.cn/home', {
+  win.loadURL('https://dev-client.codemao.cn/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
     app.quit();
   });
-  // check_update();
+  // create menu
+  var template = [{
+    label: "Application",
+    submenu: [
+        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]}, {
+    label: "修改",
+    submenu: [
+        { label: "撤销", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "重做", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "剪切", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "复制", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "粘贴", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: "全选", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+    ]}
+  ];
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 function create_full_screen_window(url) {
   const displays = electron.screen.getAllDisplays();

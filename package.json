@@ -1,6 +1,6 @@
 {
   "name": "codemao",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "productName": "编程猫",
   "main": "./main.js",
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/Fukai-AC/my_electron#readme",
   "devDependencies": {
     "cross-env": "^5.0.5",
-    "electron": "1.7.5",
+    "electron": "1.7.9",
     "electron-builder": "^19.22.1",
     "electron-rebuild": "^1.6.0"
   },
