@@ -67,7 +67,7 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
 }
 
 function createWindow() {
-  app.version = '1.0.2';
+  app.version = '1.1.0';
   globalShortcut.register('CommandOrControl+Shift+o', () => {
     BrowserWindow.getFocusedWindow().openDevTools();
   })
