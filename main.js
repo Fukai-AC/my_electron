@@ -96,9 +96,9 @@ function createWindow() {
   });
   // create menu
   var template = [{
-    label: "Application",
+    label: "编程猫",
     submenu: [
-        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+        { label: "退出编程猫", accelerator: "Command+Q", click: function() { app.quit(); }}
     ]}, {
     label: "修改",
     submenu: [
