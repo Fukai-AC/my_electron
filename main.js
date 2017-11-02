@@ -121,10 +121,12 @@ function createWindow() {
         {
           label: "截图", accelerator: "CmdOrCtrl+P", click: function() {
             const cur_window = BrowserWindow.getFocusedWindow();
-            const window_size = cur_window.getSize();
-            BrowserWindow.getFocusedWindow().capturePage({x: 0, y: 0, width: window_size[0], height: window_size[1]}, (buffer) => {
-              clipboard.writeImage(buffer);
-            });
+            if (!!cur_window) {
+              const window_size = cur_window.getSize();
+              BrowserWindow.getFocusedWindow().capturePage({x: 0, y: 0, width: window_size[0], height: window_size[1]}, (buffer) => {
+                clipboard.writeImage(buffer);
+              });
+            }
           }
         }
       ],
