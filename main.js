@@ -8,7 +8,8 @@ const {
   dialog,
   shell,
   globalShortcut,
-  Tray
+  Tray,
+  clipboard,
 } = require('electron');
 const {
   version
@@ -95,13 +96,16 @@ function createWindow() {
     app.quit();
   });
   // create menu
-  var template = [{
-    label: "编程猫",
-    submenu: [
+  var template = [
+    {
+      label: "编程猫",
+      submenu: [
         { label: "退出编程猫", accelerator: "Command+Q", click: function() { app.quit(); }}
-    ]}, {
-    label: "修改",
-    submenu: [
+      ]
+    },
+    {
+      label: "修改",
+      submenu: [
         { label: "撤销", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
         { label: "重做", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
         { type: "separator" },
@@ -109,7 +113,22 @@ function createWindow() {
         { label: "复制", accelerator: "CmdOrCtrl+C", selector: "copy:" },
         { label: "粘贴", accelerator: "CmdOrCtrl+V", selector: "paste:" },
         { label: "全选", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-    ]}
+      ]
+    },
+    {
+      label: "截屏",
+      submenu: [
+        {
+          label: "截图", accelerator: "CmdOrCtrl+P", click: function() {
+            const cur_window = BrowserWindow.getFocusedWindow();
+            const window_size = cur_window.getSize();
+            BrowserWindow.getFocusedWindow().capturePage({x: 0, y: 0, width: window_size[0], height: window_size[1]}, (buffer) => {
+              clipboard.writeImage(buffer);
+            });
+          }
+        }
+      ],
+    },
   ];
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   win.flashFrame(true);
