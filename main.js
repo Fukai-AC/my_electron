@@ -100,7 +100,7 @@ function createWindow() {
     {
       label: "编程猫",
       submenu: [
-        { label: "退出编程猫", accelerator: "Command+Q", click: function() { app.quit(); }}
+        { label: "退出编程猫", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
       ]
     },
     {
@@ -125,6 +125,15 @@ function createWindow() {
               const window_size = cur_window.getSize();
               BrowserWindow.getFocusedWindow().capturePage({x: 0, y: 0, width: window_size[0], height: window_size[1]}, (buffer) => {
                 clipboard.writeImage(buffer);
+              });
+              dialog.showMessageBox({
+                type: 'info',
+                message: '截图已复制到剪贴板，请在对话框粘贴',
+              });
+            } else {
+              dialog.showMessageBox({
+                type: 'error',
+                message: '截屏失败，请打开需要截屏的窗口',
               });
             }
           }
