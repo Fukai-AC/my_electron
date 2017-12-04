@@ -10,6 +10,7 @@ const {
   globalShortcut,
   Tray,
   clipboard,
+  Notification,
 } = require('electron');
 const {
   version
@@ -68,7 +69,7 @@ function new_window_listener(ev, url, frameName, disposition, options, additiona
 }
 
 function createWindow() {
-  app.version = '1.1.0';
+  app.version = '1.2.0';
   globalShortcut.register('CommandOrControl+Shift+o', () => {
     BrowserWindow.getFocusedWindow().openDevTools();
   })
@@ -89,7 +90,7 @@ function createWindow() {
   });
   // win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('https://client.codemao.cn/home', {
+  win.loadURL('https://dev-client.codemao.cn/home', {
     userAgent: 'codemao-application'
   });
   win.on('closed', () => {
@@ -126,15 +127,15 @@ function createWindow() {
               BrowserWindow.getFocusedWindow().capturePage({x: 0, y: 0, width: window_size[0], height: window_size[1]}, (buffer) => {
                 clipboard.writeImage(buffer);
               });
-              dialog.showMessageBox({
-                type: 'info',
-                message: '截图已复制到剪贴板，请在对话框粘贴',
+              create_simple_notification({
+                title: '截屏成功',
+                body: '截图已复制到剪贴板，请在对话框粘贴'
               });
             } else {
-              dialog.showMessageBox({
-                type: 'error',
-                message: '截屏失败，请打开需要截屏的窗口',
-              });
+              create_simple_notification({
+                title: '截屏失败',
+                body: '截屏失败，请打开需要截屏的窗口'
+              })
             }
           }
         }
@@ -176,6 +177,11 @@ function create_full_screen_window(url) {
   window.loadURL(url, {
     userAgent: useragent
   });
+}
+
+function create_simple_notification(options) {
+  const notice = new Notification(options);
+  notice.show();
 }
 
 const isSecondInstance = app.makeSingleInstance((commandLine, workingDirectory) => {
