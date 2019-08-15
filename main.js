@@ -25,7 +25,7 @@ const axios = require('axios');
 let win;
 let normal_window;
 // const check_update = () => {
-//   const dev_url = 'https://backend-dev.codemao.cn/tiger/pc_client/releases/latest';
+//   const dev_url = '';
 //   const url = '';
 //   axios.get(dev_url).then((res) => {
 //     if(res.status == 200 && res.data && res.data.version_number !== version) {
