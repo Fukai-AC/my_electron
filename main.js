@@ -99,9 +99,9 @@ function createWindow() {
   // create menu
   var template = [
     {
-      label: "编程猫",
+      label: "",
       submenu: [
-        { label: "退出编程猫", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
+        { label: "退出", accelerator: "CmdOrCtrl+Q", click: function() { app.quit(); }}
       ]
     },
     {
