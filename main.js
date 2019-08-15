@@ -90,8 +90,8 @@ function createWindow() {
   });
   // win.openDevTools();
   win.webContents.on('new-window', new_window_listener);
-  win.loadURL('https://staging-client.codemao.cn/home', {
-    userAgent: 'codemao-application'
+  win.loadURL('', {
+    userAgent: ''
   });
   win.on('closed', () => {
     app.quit();
@@ -168,9 +168,9 @@ function create_full_screen_window(url) {
   }
   // window.setFullScreen(true)
   // window.openDevTools();
-  var useragent = 'codemao-application';
+  var useragent = '';
   if (url.indexOf('wood') >= 0 || url.indexOf('dev-py') >= 0) {
-    useragent = 'codemao-application Chrome/' + process.versions.chrome;
+    useragent = '' + process.versions.chrome;
   }
   window.maximize();
   window.webContents.on('new-window', new_window_listener);
